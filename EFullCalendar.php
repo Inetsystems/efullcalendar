@@ -13,6 +13,29 @@ class EFullCalendar extends CWidget
     public $themeCssFile;
 
     /**
+	 * @var string the root URL that contains all JUI theme folders.
+	 * If this property is not set (default), Yii will publish the JUI package included in the zii release and use
+	 * that to infer the root theme URL. You should set this property if you intend to use
+	 * a theme that is not found in the JUI package included in zii.
+	 * Note that under this URL, there must be a directory whose name is specified by {@link theme}.
+	 * Do not append any slash character to the URL.
+	 */
+	public $themeUrl;
+	/**
+	 * @var string the JUI theme name. Defaults to 'base'. Make sure that under {@link themeUrl} there
+	 * is a directory whose name is the same as this property value (case-sensitive).
+	 */
+	public $theme='base';
+    /**
+	 * @var mixed the theme CSS file name. Defaults to 'jquery-ui.css'.
+	 * Note the file must exist under the URL specified by {@link themeUrl}/{@link theme}.
+	 * If you need to include multiple theme CSS files (e.g. during development, you want to include individual
+	 * plugin CSS files), you may set this property as an array of the CSS file names.
+	 * This property can also be set as false, which means the widget will not include any theme CSS file,
+	 * and it is your responsibility to explicitly include it somewhere else.
+	 */
+	public $cssFile='jquery-ui.css';
+    /**
      * @var array FullCalendar's options.
      */
     public $options=array();
@@ -73,6 +96,23 @@ class EFullCalendar extends CWidget
         return dirname(__FILE__).'/locale/'.$this->lang.'.'.$this->ext;
     }
 
+    public function init() {
+        parent::init();
+
+        $this->options['theme'] = true;
+        $cs = Yii::app()->getClientScript();
+        if ($this->themeUrl === null)
+            $this->themeUrl = $cs->getCoreScriptUrl() . '/jui/css';
+
+        if (is_string($this->cssFile))
+            $cs->registerCssFile($this->themeUrl . '/' . $this->theme . '/' . $this->cssFile);
+        elseif (is_array($this->cssFile)) {
+            foreach ($this->cssFile as $cssFile)
+                $cs->registerCssFile($this->themeUrl . '/' . $this->theme . '/' . $cssFile);
+        }
+
+    }
+
     /**
      * Registers assets.
      */
@@ -95,10 +135,6 @@ class EFullCalendar extends CWidget
         if ($this->googleCalendarUrl) {
             $cs->registerScriptFile($assets.'/fullcalendar/gcal.js');
             $this->options['events']=$this->googleCalendarUrl;
-        }
-        if ($this->themeCssFile) {
-            $this->options['theme']=true;
-            $cs->registerCssFile($assets.'/themes/'.$this->themeCssFile);
         }
 
         $js='$("#'.$this->id.'").fullCalendar('.CJavaScript::encode($this->options).');';
