@@ -119,8 +119,8 @@ class EFullCalendar extends CWidget
         $cs->registerCoreScript('jquery');
         $cs->registerCoreScript('jquery.ui');
 
-        $ext=defined('YII_DEBUG') && YII_DEBUG ? 'js' : 'min.js';
-        $cs->registerScriptFile($assets.'/fullcalendar/fullcalendar.'.$ext);
+        //$ext=defined('YII_DEBUG') && YII_DEBUG ? 'js' : 'min.js';
+        $cs->registerScriptFile($assets.'/fullcalendar/fullcalendar.js');
         //$cs->registerCssFile($assets.'/fullcalendar/fullcalendar.css');
 
         if ($this->loadPrintCss) {
