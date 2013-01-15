@@ -8,11 +8,6 @@ class EFullCalendar extends CWidget
     public $googleCalendarUrl;
 
     /**
-     * @var string Theme's CSS file.
-     */
-    public $themeCssFile;
-
-    /**
 	 * @var string the root URL that contains all JUI theme folders.
 	 * If this property is not set (default), Yii will publish the JUI package included in the zii release and use
 	 * that to infer the root theme URL. You should set this property if you intend to use
@@ -34,7 +29,7 @@ class EFullCalendar extends CWidget
 	 * This property can also be set as false, which means the widget will not include any theme CSS file,
 	 * and it is your responsibility to explicitly include it somewhere else.
 	 */
-	public $cssFile='jquery-ui.css';
+	public $cssFile='fullcalendar.css';
     /**
      * @var array FullCalendar's options.
      */
@@ -98,8 +93,7 @@ class EFullCalendar extends CWidget
 
     public function init() {
         parent::init();
-
-        $this->options['theme'] = true;
+        
         $cs = Yii::app()->getClientScript();
         if ($this->themeUrl === null)
             $this->themeUrl = $cs->getCoreScriptUrl() . '/jui/css';
@@ -127,7 +121,7 @@ class EFullCalendar extends CWidget
 
         $ext=defined('YII_DEBUG') && YII_DEBUG ? 'js' : 'min.js';
         $cs->registerScriptFile($assets.'/fullcalendar/fullcalendar.'.$ext);
-        $cs->registerCssFile($assets.'/fullcalendar/fullcalendar.css');
+        //$cs->registerCssFile($assets.'/fullcalendar/fullcalendar.css');
 
         if ($this->loadPrintCss) {
             $cs->registerCssFile($assets.'/fullcalendar/fullcalendar.print.css');
