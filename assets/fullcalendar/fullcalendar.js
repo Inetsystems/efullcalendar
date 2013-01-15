@@ -3795,11 +3795,11 @@ function AgendaEventRenderer() {
 				}
 			}
 			left = leftmost +                                  // leftmost possible
-				(availWidth / (levelI + forward + 1) * levelI) // indentation
+				1 // indentation
 				* dis + (rtl ? availWidth - outerWidth : 0);   // rtl
 			seg.top = top;
 			seg.left = left;
-			seg.outerWidth = outerWidth;
+			seg.outerWidth = availWidth;
 			seg.outerHeight = bottom - top;
 			html += slotSegHtml(event, seg);
 		}
